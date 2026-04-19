@@ -16,24 +16,6 @@ import {
 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
-type Project = {
-  name: string;
-  tag: string;
-  desc: string;
-  live?: string;
-  github?: string;
-  statusLabel?: string;
-  features: string[];
-  tech: string[];
-  deepDive?: {
-    problem: string;
-    approach: string;
-    architecture: string[];
-    challenges: string[];
-    outcome: string;
-  };
-};
-
 const sections = [
   { id: 'home', label: 'Home' },
   { id: 'projects', label: 'Projects' },
@@ -43,7 +25,7 @@ const sections = [
   { id: 'contact', label: 'Contact' }
 ];
 
-const projects: Project[] = [
+const projects = [
   {
     name: 'FinAI',
     tag: 'AI-Powered Financial Advisor',
@@ -169,7 +151,7 @@ const trustMetrics = [
 
 const stagger = {
   hidden: { opacity: 0, y: 20 },
-  show: (i: number) => ({
+  show: (i) => ({
     opacity: 1,
     y: 0,
     transition: {
@@ -219,7 +201,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
+    const onKey = (event) => {
       if (event.key === '/' && !(event.target instanceof HTMLInputElement) && !(event.target instanceof HTMLTextAreaElement)) {
         event.preventDefault();
         setPaletteOpen((prev) => !prev);
@@ -239,7 +221,7 @@ export default function Home() {
   const activeDeepDive = activeProject.deepDive;
   const caseStudyId = `${activeProject.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-case-study`;
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setPaletteOpen(false);
   };
@@ -777,7 +759,7 @@ export default function Home() {
   );
 }
 
-function CaseStudyCard({ title, content }: { title: string; content: string }) {
+function CaseStudyCard({ title, content }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-[#0d1630] p-5">
       <p className="mono text-xs uppercase tracking-[0.25em] text-[#95bdff]">{title}</p>
