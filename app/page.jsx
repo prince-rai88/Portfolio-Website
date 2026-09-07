@@ -3,41 +3,78 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   ArrowUpRight,
+  Award,
   Briefcase,
   Code2,
   ExternalLink,
   Github,
   GraduationCap,
-  Layers,
   Linkedin,
   Mail,
+  Menu,
   Sparkles,
-  Terminal
+  Terminal,
+  Trophy,
+  X
 } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 const sections = [
   { id: 'home', label: 'Home' },
   { id: 'projects', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
-  { id: 'services', label: 'What I Build' },
+  { id: 'achievements', label: 'Achievements' },
   { id: 'experience', label: 'Experience' },
   { id: 'contact', label: 'Contact' }
 ];
 
 const projects = [
   {
+    name: 'Aegis',
+    tag: 'MCP Security & Governance',
+    desc: 'An MCP server that audits the combined effective permissions of an AI agent across all connected tools — deterministically detecting toxic capability combinations and data-exfiltration vectors before deployment, at zero LLM token cost.',
+    live: 'https://nitrostack.ai',
+    github: 'https://github.com/prince-rai88/aegis-mcp',
+    statusLabel: '🏆 1st Place — NitroStack x SRM Agentic AI Hackathon',
+    features: [
+      'Audits AI agent permissions across all connected tools deterministically',
+      'Detects toxic capability combos & data-exfiltration vectors at zero token cost',
+      'Exposes 4 MCP tools consumable by Claude, ChatGPT, or NitroStack Studio'
+    ],
+    tech: ['TypeScript', 'NitroStack', 'Model Context Protocol', 'Groq'],
+    deepDive: {
+      problem:
+        'AI agents with broad tool access can accumulate dangerous permission combinations that are invisible to operators until something goes wrong.',
+      approach:
+        'Built a deterministic MCP server that maps the full permission graph of connected tools and checks for toxic combinations and exfiltration paths — without spending any LLM tokens.',
+      architecture: [
+        'MCP Tool Layer (4 tools)',
+        'Capability Graph Engine',
+        'Attack-Path Detector',
+        'Groq Policy Explainer'
+      ],
+      challenges: [
+        'Mapping composite permissions across heterogeneous tools without LLM calls',
+        'Designing attack-path logic that scales to arbitrary tool combinations',
+        'Integrating cleanly with Claude, ChatGPT, and NitroStack Studio'
+      ],
+      outcome:
+        'Deployed live on NitroStack cloud. Won 1st Place at the NitroStack x SRM Agentic AI Hackathon.'
+    }
+  },
+  {
     name: 'FinAI',
-    tag: 'AI-Powered Financial Advisor',
-    desc: 'A production-focused financial intelligence platform that turns transaction streams into actionable savings plans and behavior insights.',
+    tag: 'AI Financial Advisor',
+    desc: 'Full-stack expense tracker that uses OpenAI to analyze categorized transaction data and generate personalized, context-aware savings recommendations. Secure Django REST backend with JWT auth; deployed end-to-end across Vercel, Render, and Supabase.',
     live: 'https://ai-financial-advisor-rouge.vercel.app',
+    github: 'https://github.com/prince-rai88/AI-Financial-Advisor',
     statusLabel: 'Live',
     features: [
-      'OpenAI-powered analysis of spending behavior',
-      'Personalized savings recommendations and forecast summaries',
-      'Secure JWT authentication with protected API boundaries'
+      'OpenAI-powered personalized savings recommendations from transaction data',
+      'Secure Django REST backend with JWT authentication',
+      'End-to-end deployment: Vercel + Render + Supabase (PostgreSQL)'
     ],
-    tech: ['Django', 'React', 'PostgreSQL', 'OpenAI API'],
+    tech: ['Django', 'React', 'PostgreSQL', 'OpenAI API', 'Vercel', 'Render'],
     deepDive: {
       problem:
         'Most expense trackers visualize data but fail to provide practical, context-aware financial guidance users can act on weekly.',
@@ -46,7 +83,7 @@ const projects = [
       architecture: [
         'React Insight Dashboard',
         'Django REST API + JWT',
-        'PostgreSQL Financial Store',
+        'Supabase PostgreSQL Store',
         'OpenAI Recommendation Engine'
       ],
       challenges: [
@@ -55,98 +92,80 @@ const projects = [
         'Keeping generated advice specific instead of generic'
       ],
       outcome:
-        'Shipped a deployable AI advisor that helps users convert raw spending logs into clear savings actions and better monthly planning.'
+        'Shipped an AI advisor that helps users convert raw spending logs into clear savings actions and better monthly planning. Live in production.'
     }
   },
   {
-    name: 'Agentic AI Bots',
-    tag: 'Autonomous Workflow Systems',
-    desc: 'Built autonomous agents for multi-step task execution, combining planning, decisioning, and tool-driven action chains for real-world applications.',
-    statusLabel: 'Coming soon',
+    name: 'LastCommit AI Agent',
+    tag: 'Autonomous AI Solver',
+    desc: 'A high-performance, deterministic AI agent built in 12 hours for The Last Commit Hackathon. Routes queries through a cascade of deterministic mathematical solvers before defaulting to an LLM fallback — ensuring computational perfection on math tasks while preserving intelligence for abstract queries.',
+    github: 'https://github.com/prince-rai88/lastcommit-ai-agent',
+    statusLabel: '🥉 3rd Place — Led competition by 9 levels',
     features: [
-      'Agent workflows orchestrated via LangChain / LangGraph',
-      'Task planning and execution pipelines with memory-aware state transitions',
-      'Real-world automation flows for repetitive operational tasks'
+      'Deterministic solvers pipeline with LLM fallback via GPT-4o-mini',
+      'Single POST endpoint that auto-routes to the optimal solver',
+      'Built in 12 hours — led the scoreboard by 9 levels before manual intervention'
     ],
-    tech: ['Python', 'OpenAI API', 'LangChain', 'LangGraph'],
+    tech: ['Python', 'FastAPI', 'OpenAI API', 'NumPy', 'SymPy', 'Playwright'],
     deepDive: {
       problem:
-        'Teams lose speed on repetitive but decision-heavy workflows that are too complex for simple scripts and too frequent for manual execution.',
+        'Competitive hackathon challenges require solving progressive algorithm and data-extraction tasks autonomously with maximum speed and precision.',
       approach:
-        'Designed agent graphs with explicit planning nodes, execution nodes, and validation checkpoints so bots can reason, act, and recover from intermediate failures.',
+        'Designed a cascading architecture: incoming queries first pass through deterministic mathematical solvers (NumPy, SymPy), and only fall back to GPT-4o-mini for abstract reasoning — combining computational perfection with LLM intelligence.',
       architecture: [
-        'Workflow Trigger Layer',
-        'Planner + Tool Router',
-        'LangGraph State Machine',
-        'Execution + Review Loop'
+        'Single POST Endpoint',
+        'Deterministic Solvers Pipeline',
+        'LLM Fallback (GPT-4o-mini)',
+        'Canonicalized Output'
       ],
       challenges: [
-        'Balancing agent autonomy with guardrails for safe execution',
-        'Preventing tool-call drift in long multi-step runs',
-        'Designing retry logic without creating infinite loops'
+        'Building a complete autonomous agent system in 12 hours',
+        'Routing between deterministic and LLM paths reliably',
+        'Handling web automation for data-extraction challenges'
       ],
       outcome:
-        'Delivered reliable autonomous pipelines that reduced manual execution time and enabled production-ready, scalable solutions.'
+        'Dominated the scoreboard, leading by 9 levels. Placed 3rd overall at The Last Commit Hackathon (Cherry+ Network, SRM).'
     }
-  },
-  {
-    name: 'Crossword',
-    tag: 'Department Management System',
-    desc: 'A full-stack academic operations platform that centralizes scheduling, attendance, assignments, and role-driven access across departments.',
-    statusLabel: 'Deployment in progress - available soon',
-    features: [
-      'Timetable + attendance + assignment workflows in one system',
-      'RBAC-first backend for Admin, Teacher, and Student roles',
-      'Interactive crossword module to improve learner engagement'
-    ],
-    tech: ['Django REST Framework', 'React', 'PostgreSQL', 'JWT']
-  },
-  {
-    name: 'GeoTracker',
-    tag: 'Real-Time Tracking Platform',
-    desc: 'A scalable location intelligence system designed to process concurrent updates and deliver low-latency map visibility.',
-    github: 'https://github.com/prince-rai88/GeoTracker.git',
-    features: [
-      'Live map-based tracking with continuous updates',
-      'Concurrent event handling for multi-user sessions',
-      'Scalable API architecture for high-frequency location writes'
-    ],
-    tech: ['FastAPI', 'WebSockets', 'Redis', 'PostgreSQL']
   }
 ];
 
 const skillMap = [
-  { category: 'Frontend', items: ['React.js', 'Next.js', 'Tailwind CSS'] },
-  { category: 'Backend', items: ['Django', 'Django REST Framework'] },
+  {
+    category: 'Languages',
+    items: ['Python', 'JavaScript', 'TypeScript', 'Java (DSA)']
+  },
+  {
+    category: 'Frontend',
+    items: ['React.js', 'Next.js', 'Tailwind CSS', 'Bootstrap', 'HTML/CSS']
+  },
+  {
+    category: 'Backend',
+    items: ['Django', 'Django REST Framework', 'NitroStack']
+  },
+  {
+    category: 'Databases',
+    items: ['PostgreSQL', 'MongoDB', 'SQLite']
+  },
   {
     category: 'AI / GenAI',
-    items: [
-      'OpenAI API',
-      'LangChain',
-      'LangGraph',
-      'Retrieval-Augmented Generation (RAG)',
-      'Agentic Systems / Autonomous Agents',
-      'OpenClaw Bots'
-    ]
+    items: ['OpenAI API', 'Groq', 'LangChain', 'OpenRouter', 'HuggingFace', 'OpenCV', 'MCP']
   },
-  { category: 'Databases', items: ['PostgreSQL', 'MongoDB'] },
-  { category: 'Tools & Systems', items: ['Git, GitHub', 'Postman', 'Vercel', 'Render'] },
   {
-    category: 'Concepts',
-    items: ['REST APIs', 'JWT Authentication', 'RBAC', 'Scalable Architecture', 'Real-time Systems']
+    category: 'Tools & Infra',
+    items: ['n8n', 'Git', 'Postman', 'Vercel', 'Render', 'ngrok', 'Open Claw']
   }
 ];
 
 const rotateLines = [
-  'I build scalable full-stack products',
-  'I design GenAI and RAG integrations',
-  'I ship agentic systems that execute'
+  'I build reliable full-stack applications',
+  'I design AI and automation integrations',
+  'I develop systems that solve problems'
 ];
 
 const trustMetrics = [
-  'Built and deployed AI applications',
-  'Built production-ready systems',
-  'Designed scalable solutions for real-world applications'
+  '🏆 1st Place — NitroStack x SRM Agentic AI Hackathon. Built and deployed a live MCP security server for AI agent governance.',
+  '🥉 3rd Place — The Last Commit, Agentic AI Hackathon by Cherry+ Network, SRM. Built a working autonomous AI routing system in 12 hours as a first-year participant.',
+  '🎓 9.9 / 10.0 CGPA across Year 1 — top academic performance alongside active project development, internship, and hackathon participation.'
 ];
 
 const stagger = {
@@ -164,9 +183,13 @@ const stagger = {
 export default function Home() {
   const [activeSection, setActiveSection] = useState('home');
   const [currentLine, setCurrentLine] = useState(0);
-  const [expandedProject, setExpandedProject] = useState('FinAI');
+  const [expandedProject, setExpandedProject] = useState('Aegis');
   const [loading, setLoading] = useState(true);
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [caseStudyOpen, setCaseStudyOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [formStatus, setFormStatus] = useState('idle');
+  const formRef = useRef(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setLoading(false), 950);
@@ -206,7 +229,10 @@ export default function Home() {
         event.preventDefault();
         setPaletteOpen((prev) => !prev);
       }
-      if (event.key === 'Escape') setPaletteOpen(false);
+      if (event.key === 'Escape') {
+        setPaletteOpen(false);
+        setCaseStudyOpen(false);
+      }
     };
 
     window.addEventListener('keydown', onKey);
@@ -219,11 +245,35 @@ export default function Home() {
   );
 
   const activeDeepDive = activeProject.deepDive;
-  const caseStudyId = `${activeProject.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-case-study`;
 
   const scrollToSection = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setPaletteOpen(false);
+    setMobileMenuOpen(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus('sending');
+    const form = formRef.current;
+    const data = new FormData(form);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: data
+      });
+      if (res.ok) {
+        setFormStatus('sent');
+        form.reset();
+        setTimeout(() => setFormStatus('idle'), 4000);
+      } else {
+        setFormStatus('error');
+        setTimeout(() => setFormStatus('idle'), 4000);
+      }
+    } catch {
+      setFormStatus('error');
+      setTimeout(() => setFormStatus('idle'), 4000);
+    }
   };
 
   return (
@@ -276,23 +326,59 @@ export default function Home() {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`rounded-full px-3 py-2 text-sm transition ${
-                  activeSection === item.id
+                className={`rounded-full px-3 py-2 text-sm transition ${activeSection === item.id
                     ? 'bg-white/12 text-white shadow-glowBlue'
                     : 'text-white/65 hover:bg-white/6 hover:text-white'
-                }`}
+                  }`}
               >
                 {item.label}
               </button>
             ))}
           </nav>
-          <button
-            onClick={() => setPaletteOpen(true)}
-            className="mono rounded-full border border-white/20 px-4 py-2 text-xs text-white/70 transition hover:border-neonBlue hover:text-white"
-          >
-            Press / to navigate
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setPaletteOpen(true)}
+              className="mono hidden rounded-full border border-white/20 px-4 py-2 text-xs text-white/70 transition hover:border-neonBlue hover:text-white md:inline-flex"
+            >
+              Press / to navigate
+            </button>
+            <button
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              className="rounded-lg border border-white/20 p-2 text-white/80 transition hover:border-neonBlue md:hidden"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.nav
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="overflow-hidden border-t border-white/10 bg-black/60 backdrop-blur-xl md:hidden"
+            >
+              <div className="flex flex-col gap-1 px-6 py-4">
+                {sections.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={`rounded-xl px-4 py-3 text-left text-sm transition ${activeSection === item.id
+                        ? 'bg-white/12 text-white'
+                        : 'text-white/65 hover:bg-white/6 hover:text-white'
+                      }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </header>
 
       <main className="mx-auto max-w-7xl px-6">
@@ -304,11 +390,14 @@ export default function Home() {
             className="neon-border glow-card rounded-[2rem] bg-[var(--surface)] p-8 md:p-14"
           >
             <span className="mono inline-flex items-center gap-2 rounded-full border border-[#3d74ff66] bg-[#10244766] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[#a8cbff]">
-              <Sparkles size={14} /> Full Stack Engineer | AI & Agentic Systems
+              <Sparkles size={14} /> Full Stack Developer | AI & Automation
             </span>
             <h1 className="mt-9 text-5xl font-semibold leading-[0.9] tracking-[-0.04em] text-white md:text-8xl">Prince Rai</h1>
-            <p className="mt-5 max-w-4xl text-xl text-[#d8e2ff] md:text-2xl">
-              I build full-stack applications and intelligent AI systems, including agentic workflows that solve real-world problems.
+            <p className="mt-5 max-w-4xl text-xl text-white md:text-3xl font-medium">
+              Full-Stack Developer &amp; AI Engineer
+            </p>
+            <p className="mt-3 max-w-4xl text-lg text-[#b8c6e2] md:text-xl">
+              Second-year CSE engineer who builds and ships production systems — full-stack web apps, LLM-powered backends, and agentic AI tools. Won 1st Place at a national hackathon, deployed multiple live applications, and actively freelancing — all in Year 1.
             </p>
 
             <div className="mt-8 h-8 overflow-hidden mono text-base text-neonCyan md:text-lg">
@@ -339,7 +428,9 @@ export default function Home() {
                 Hire Me
               </button>
               <a
-                href="#"
+                href="/Prince_Rai_Resume.pdf"
+                target="_blank"
+                rel="noreferrer"
                 className="rounded-xl border border-white/20 px-7 py-3.5 text-sm font-semibold text-white/90 transition hover:border-white/40"
               >
                 View Resume
@@ -384,9 +475,8 @@ export default function Home() {
                     onClick={() => setExpandedProject(project.name)}
                     whileHover={{ y: -6, scale: 1.01 }}
                     transition={{ duration: 0.2 }}
-                    className={`glow-card neon-border relative w-[20rem] rounded-2xl p-6 text-left transition md:w-[23rem] ${
-                      selected ? 'bg-[#10142b]/92 shadow-glowBlue' : 'bg-[#090d1a]/74'
-                    }`}
+                    className={`glow-card neon-border relative w-[20rem] rounded-2xl p-6 text-left transition md:w-[23rem] ${selected ? 'bg-[#10142b]/92 shadow-glowBlue' : 'bg-[#090d1a]/74'
+                      }`}
                   >
                     <p className="mono text-xs uppercase tracking-[0.2em] text-neonCyan">{project.tag}</p>
                     <h3 className="mt-3 text-2xl font-semibold">{project.name}</h3>
@@ -429,7 +519,7 @@ export default function Home() {
                       Live <ExternalLink size={16} />
                     </a>
                   )}
-                  {!activeProject.live && activeProject.github && (
+                  {activeProject.github && (
                     <a
                       href={activeProject.github}
                       target="_blank"
@@ -446,9 +536,7 @@ export default function Home() {
                   )}
                   {activeDeepDive && (
                     <button
-                      onClick={() =>
-                        document.getElementById(caseStudyId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                      }
+                      onClick={() => setCaseStudyOpen(true)}
                       className="rounded-xl bg-gradient-to-r from-neonBlue to-neonViolet px-4 py-2 text-sm font-medium text-white"
                     >
                       View Case Study
@@ -456,7 +544,7 @@ export default function Home() {
                   )}
                 </div>
               </div>
-              {activeProject.statusLabel && !activeProject.live && (
+              {activeProject.statusLabel && (
                 <p className="mt-3 text-sm text-neonCyan">{activeProject.statusLabel}</p>
               )}
 
@@ -486,44 +574,18 @@ export default function Home() {
                 </div>
               </div>
 
-              {activeDeepDive && (
-                <div id={caseStudyId} className="mt-12 rounded-2xl border border-[#76a4ff44] bg-[#0f162f]/80 p-6 md:p-7">
-                  <h4 className="section-title text-[2rem]">{activeProject.name} Case Study</h4>
-                  <div className="mt-8 grid gap-4 lg:grid-cols-2">
-                    <CaseStudyCard title="Problem" content={activeDeepDive.problem} />
-                    <CaseStudyCard title="Approach" content={activeDeepDive.approach} />
-                  </div>
-
-                  <div className="mt-8">
-                    <p className="mono text-xs uppercase tracking-[0.25em] text-[#95bdff]">Architecture</p>
-                    <div className="mt-4 grid gap-3 md:grid-cols-4">
-                      {activeDeepDive.architecture.map((node, i) => (
-                        <div key={node} className="rounded-xl border border-white/15 bg-[#111d3a] px-4 py-4 text-sm">
-                          <p>{node}</p>
-                          {i < activeDeepDive.architecture.length - 1 && (
-                            <p className="mt-3 mono text-xs text-neonCyan">{`-->`}</p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mt-8 grid gap-4 lg:grid-cols-2">
-                    <div className="rounded-2xl border border-white/10 bg-[#0d1630] p-5">
-                      <p className="mono text-xs uppercase tracking-[0.25em] text-[#95bdff]">Challenges</p>
-                      <ul className="mt-3 space-y-2 text-sm text-[#d8e3ff]">
-                        {activeDeepDive.challenges.map((challenge) => (
-                          <li key={challenge} className="rounded-lg border border-white/10 bg-white/5 p-3">
-                            {challenge}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <CaseStudyCard title="Outcome" content={activeDeepDive.outcome} />
-                  </div>
-                </div>
-              )}
             </motion.article>
+          </AnimatePresence>
+
+          {/* Case Study Modal */}
+          <AnimatePresence>
+            {caseStudyOpen && activeDeepDive && (
+              <CaseStudyModal
+                project={activeProject}
+                deepDive={activeDeepDive}
+                onClose={() => setCaseStudyOpen(false)}
+              />
+            )}
           </AnimatePresence>
         </section>
 
@@ -558,19 +620,35 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="services" className="py-32">
-          <p className="mono text-xs uppercase tracking-[0.25em] text-[#95bfff]">What I Build</p>
-          <h2 className="section-title mt-3">Built to Convert Ideas Into Operating Systems</h2>
+        <section id="achievements" className="py-32">
+          <p className="mono text-xs uppercase tracking-[0.25em] text-[#95bfff]">Achievements</p>
+          <h2 className="section-title mt-3">Proof of Work, Not Just Talk</h2>
 
           <div className="mt-11 grid gap-4 md:grid-cols-2">
             {[
-              'Scalable full-stack applications',
-              'AI-powered features and integrations',
-              'Agentic workflows and automation systems',
-              'Backend architectures and APIs'
+              {
+                icon: <Trophy size={20} />,
+                title: '1st Place — NitroStack x SRM Agentic AI Hackathon',
+                desc: 'Built and deployed a live MCP security server for AI agent governance. Adopted at the hackathon for real-world evaluation.'
+              },
+              {
+                icon: <Award size={20} />,
+                title: '3rd Place — The Last Commit, Cherry+ Network',
+                desc: 'Built a working autonomous AI routing system in 12 hours as a first-year participant at the Agentic AI Hackathon.'
+              },
+              {
+                icon: <GraduationCap size={20} />,
+                title: '9.9 / 10.0 CGPA — Year 1',
+                desc: 'Top academic performance across Semesters 1 & 2, alongside active project development, internship, and hackathon participation.'
+              },
+              {
+                icon: <Code2 size={20} />,
+                title: '100+ Problems Solved — LeetCode (Java)',
+                desc: 'Consistent algorithmic practice covering Arrays, Hashing, Sliding Window, Two Pointers, and Binary Search.'
+              }
             ].map((item, index) => (
               <motion.div
-                key={item}
+                key={item.title}
                 custom={index}
                 initial="hidden"
                 whileInView="show"
@@ -579,17 +657,19 @@ export default function Home() {
                 className="neon-border rounded-2xl bg-[#0f172fa9] p-6"
               >
                 <div className="mb-4 inline-flex rounded-lg border border-neonBlue/40 bg-neonBlue/10 p-2 text-neonCyan">
-                  <Layers size={18} />
+                  {item.icon}
                 </div>
-                <p className="text-lg text-[#dbe5ff]">{item}</p>
+                <h3 className="text-base font-semibold text-white">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#a8b4d3]">{item.desc}</p>
               </motion.div>
             ))}
           </div>
 
           <div className="mt-8 neon-border rounded-2xl bg-gradient-to-r from-[#102142] via-[#11162d] to-[#1f1a3f] p-7 md:flex md:items-center md:justify-between">
-            <p className="max-w-2xl text-[#dce4fb]">
-              I partner with teams that want strong execution, clear architecture decisions, and reliable shipping velocity.
-            </p>
+            <div className="max-w-3xl text-[#dce4fb]">
+              <p className="font-medium text-lg text-white">Actively building in Generative AI</p>
+              <p className="mt-2 text-[15px] leading-relaxed text-[#a8b4d3]">Studying LLM application development through structured coursework (CampusX) and hands-on implementation with LangChain, OpenRouter, and MCP.</p>
+            </div>
             <button
               onClick={() => scrollToSection('contact')}
               className="mt-4 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#081328] transition hover:bg-[#dce8ff] md:mt-0"
@@ -607,19 +687,35 @@ export default function Home() {
               <div className="mb-4 inline-flex rounded-xl border border-white/15 p-2 text-neonCyan">
                 <Briefcase size={18} />
               </div>
-              <ul className="space-y-3 text-sm text-[#d5dff7]">
-                <li className="rounded-lg border border-white/10 bg-white/5 p-3">Built production-ready systems for real-world applications</li>
-                <li className="rounded-lg border border-white/10 bg-white/5 p-3">Built and deployed an AI product in first year</li>
-                <li className="rounded-lg border border-white/10 bg-white/5 p-3">Consistent focus on shipping production-ready systems</li>
-              </ul>
+              <div className="space-y-4 text-sm text-[#d5dff7]">
+                <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                  <h3 className="font-semibold text-white">Web Development Intern</h3>
+                  <p className="text-neonCyan text-xs mt-1 uppercase tracking-wider mono">inAmigos Foundation · 2026</p>
+                  <p className="mt-2 leading-relaxed text-[#a8b4d3]">Developed and improved web pages for the inAmigos platform; identified and reported functional issues across the website to support ongoing development.</p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                  <h3 className="font-semibold text-white">Freelance Full-Stack & AI Developer</h3>
+                  <p className="text-neonCyan text-xs mt-1 uppercase tracking-wider mono">Fiverr · Jan 2026 – Present</p>
+                  <p className="mt-2 leading-relaxed text-[#a8b4d3]">Running active gigs in full-stack web development (React + Django) and agentic AI automation — building LLM-integrated applications and AI workflow systems for clients.</p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                  <h3 className="font-semibold text-white">Technical Member</h3>
+                  <p className="text-neonCyan text-xs mt-1 uppercase tracking-wider mono">Google Developer Groups on Campus, SRM · Mar 2026 – Present</p>
+                  <p className="mt-2 leading-relaxed text-[#a8b4d3]">Contribute to developer community initiatives, technical workshops, and open-source projects at the SRM campus chapter.</p>
+                </div>
+              </div>
             </div>
             <div className="neon-border rounded-2xl bg-[#0f162f]/70 p-6">
               <div className="mb-4 inline-flex rounded-xl border border-white/15 p-2 text-neonCyan">
                 <GraduationCap size={18} />
               </div>
-              <h3 className="text-xl font-semibold text-white">B.Tech CSE</h3>
+              <h3 className="text-xl font-semibold text-white">B.Tech, Computer Science Engineering</h3>
               <p className="mt-2 text-[#d5dff7]">SRM Institute of Science and Technology, Chennai</p>
-              <p className="mono mt-2 text-xs uppercase tracking-[0.2em] text-[#96beff]">2025 - Present</p>
+              <p className="mono mt-2 text-xs uppercase tracking-[0.2em] text-[#96beff]">2025 – Present</p>
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-neonCyan/30 bg-neonCyan/10 px-3 py-1">
+                <span className="text-xs font-semibold text-neonCyan">CGPA: 9.9 / 10.0</span>
+                <span className="text-xs text-[#a8b4d3]">Year 1 — Semesters 1 & 2</span>
+              </div>
             </div>
           </div>
 
@@ -628,15 +724,15 @@ export default function Home() {
               <p className="mono text-xs uppercase tracking-[0.22em] text-neonCyan">Terminal Snapshot</p>
               <div className="mt-4 rounded-xl border border-white/10 bg-black/40 p-4 mono text-xs text-[#8db9ff]">
                 <p>$ whoami</p>
-                <p className="mt-1 text-[#cddcff]">prince-rai // full-stack-engineer // ai-agentic-systems</p>
-                <p className="mt-3">$ ship --mode production</p>
-                <p className="mt-1 text-[#cddcff]">Deploying scalable products and intelligent workflows...</p>
+                <p className="mt-1 text-[#cddcff]">prince-rai // full-stack-developer // ai-automation</p>
+                <p className="mt-3">$ start --project</p>
+                <p className="mt-1 text-[#cddcff]">Building robust applications and intelligent workflows...</p>
               </div>
             </div>
             <div className="neon-border rounded-2xl bg-[#0a1122]/75 p-5">
               <p className="mono text-xs uppercase tracking-[0.22em] text-neonCyan">Focus Areas</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {['Full-Stack Systems', 'AI Integrations', 'Agentic Workflows', 'API Security', 'Scalable Architectures'].map((focus) => (
+                {['Full-Stack Development', 'AI Integrations', 'Workflow Automation', 'API Design', 'System Architecture'].map((focus) => (
                   <span key={focus} className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-sm text-[#dce6ff]">
                     {focus}
                   </span>
@@ -679,33 +775,51 @@ export default function Home() {
               </a>
             </div>
 
-            <form className="mt-8 grid gap-4 md:grid-cols-2">
+            <form ref={formRef} onSubmit={handleSubmit} className="mt-8 grid gap-4 md:grid-cols-2">
+              <input type="hidden" name="access_key" value="6830a5dd-3ebb-4960-b675-97fb42282ab2" />
+              <input type="hidden" name="subject" value="New Portfolio Inquiry from princerai.dev" />
               <input
+                name="name"
                 type="text"
                 placeholder="Your Name"
+                required
                 className="rounded-xl border border-white/15 bg-[#0b1227] px-4 py-3 text-sm text-white outline-none transition focus:border-neonBlue"
               />
               <input
+                name="email"
                 type="email"
                 placeholder="Email Address"
+                required
                 className="rounded-xl border border-white/15 bg-[#0b1227] px-4 py-3 text-sm text-white outline-none transition focus:border-neonBlue"
               />
               <input
+                name="project"
                 type="text"
                 placeholder="Project / Role"
                 className="rounded-xl border border-white/15 bg-[#0b1227] px-4 py-3 text-sm text-white outline-none transition focus:border-neonBlue md:col-span-2"
               />
               <textarea
+                name="message"
                 placeholder="Tell me what you want to build"
+                required
                 rows={5}
                 className="rounded-xl border border-white/15 bg-[#0b1227] px-4 py-3 text-sm text-white outline-none transition focus:border-neonBlue md:col-span-2"
               />
-              <button
-                type="button"
-                className="rounded-xl bg-gradient-to-r from-neonBlue to-neonViolet px-6 py-3 text-sm font-semibold text-white transition hover:shadow-glowBlue md:w-fit"
-              >
-                Send Inquiry
-              </button>
+              <div className="flex items-center gap-4 md:col-span-2">
+                <button
+                  type="submit"
+                  disabled={formStatus === 'sending'}
+                  className="rounded-xl bg-gradient-to-r from-neonBlue to-neonViolet px-6 py-3 text-sm font-semibold text-white transition hover:shadow-glowBlue disabled:opacity-60 md:w-fit"
+                >
+                  {formStatus === 'sending' ? 'Sending...' : formStatus === 'sent' ? '✓ Sent!' : 'Send Inquiry'}
+                </button>
+                {formStatus === 'sent' && (
+                  <span className="text-sm text-neonCyan">Message sent successfully!</span>
+                )}
+                {formStatus === 'error' && (
+                  <span className="text-sm text-red-400">Failed to send. Try emailing directly.</span>
+                )}
+              </div>
             </form>
           </div>
         </section>
@@ -765,5 +879,80 @@ function CaseStudyCard({ title, content }) {
       <p className="mono text-xs uppercase tracking-[0.25em] text-[#95bdff]">{title}</p>
       <p className="mt-3 text-sm leading-relaxed text-[#d8e3ff]">{content}</p>
     </div>
+  );
+}
+
+function CaseStudyModal({ project, deepDive, onClose }) {
+  return (
+    <motion.div
+      key="case-study-modal"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[110] overflow-y-auto bg-black/70 backdrop-blur-md"
+      onClick={onClose}
+    >
+      <div className="flex min-h-full items-start justify-center p-4 pt-20 pb-20">
+        <motion.div
+          initial={{ scale: 0.97, y: 16, opacity: 0 }}
+          animate={{ scale: 1, y: 0, opacity: 1 }}
+          exit={{ scale: 0.97, y: 8, opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          onClick={(e) => e.stopPropagation()}
+          className="w-full max-w-3xl rounded-2xl border border-[#76a4ff44] bg-[#080e1f] p-6 md:p-8"
+        >
+          {/* Header */}
+          <div className="mb-6 flex items-start justify-between gap-4">
+            <div>
+              <p className="mono text-xs uppercase tracking-[0.22em] text-neonCyan">Case Study</p>
+              <h3 className="mt-1 text-2xl font-semibold text-white">{project.name}</h3>
+              <p className="mt-1 text-sm text-[#95bfff]">{project.tag}</p>
+            </div>
+            <button
+              onClick={onClose}
+              className="rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white/70 transition hover:border-white/30 hover:text-white"
+            >
+              Close ✕
+            </button>
+          </div>
+
+          {/* Problem & Approach */}
+          <div className="grid gap-4 md:grid-cols-2">
+            <CaseStudyCard title="Problem" content={deepDive.problem} />
+            <CaseStudyCard title="Approach" content={deepDive.approach} />
+          </div>
+
+          {/* Architecture */}
+          <div className="mt-6">
+            <p className="mono text-xs uppercase tracking-[0.25em] text-[#95bdff]">Architecture</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {deepDive.architecture.map((node, i) => (
+                <div key={node} className="flex items-center gap-2">
+                  <span className="rounded-lg border border-white/15 bg-[#111d3a] px-3 py-2 text-xs text-[#d3e1ff]">{node}</span>
+                  {i < deepDive.architecture.length - 1 && (
+                    <span className="mono text-xs text-neonCyan">→</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Challenges & Outcome */}
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className="rounded-2xl border border-white/10 bg-[#0d1630] p-5">
+              <p className="mono text-xs uppercase tracking-[0.25em] text-[#95bdff]">Challenges</p>
+              <ul className="mt-3 space-y-2 text-sm text-[#d8e3ff]">
+                {deepDive.challenges.map((challenge) => (
+                  <li key={challenge} className="rounded-lg border border-white/10 bg-white/5 p-3">
+                    {challenge}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <CaseStudyCard title="Outcome" content={deepDive.outcome} />
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
   );
 }
