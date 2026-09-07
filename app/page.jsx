@@ -165,7 +165,7 @@ const rotateLines = [
 const trustMetrics = [
   '🏆 1st Place — NitroStack x SRM Agentic AI Hackathon. Built and deployed a live MCP security server for AI agent governance.',
   '🥉 3rd Place — The Last Commit, Agentic AI Hackathon by Cherry+ Network, SRM. Built a working autonomous AI routing system in 12 hours as a first-year participant.',
-  '🎓 9.9 / 10.0 CGPA across Year 1 — top academic performance alongside active project development, internship, and hackathon participation.'
+  '🎓 9.9 / 10.0 CGPA — top academic performance alongside active project development, internship, and hackathon participation.'
 ];
 
 const stagger = {
@@ -397,7 +397,7 @@ export default function Home() {
               Full-Stack Developer &amp; AI Engineer
             </p>
             <p className="mt-3 max-w-4xl text-lg text-[#b8c6e2] md:text-xl">
-              Second-year CSE engineer who builds and ships production systems — full-stack web apps, LLM-powered backends, and agentic AI tools. Won 1st Place at a national hackathon, deployed multiple live applications, and actively freelancing — all in Year 1.
+              CSE engineer who builds and ships production systems — full-stack web apps, LLM-powered backends, and agentic AI tools. Won 1st Place at a national hackathon, deployed multiple live applications, and actively freelancing.
             </p>
 
             <div className="mt-8 h-8 overflow-hidden mono text-base text-neonCyan md:text-lg">
@@ -638,7 +638,7 @@ export default function Home() {
               },
               {
                 icon: <GraduationCap size={20} />,
-                title: '9.9 / 10.0 CGPA — Year 1',
+                title: '9.9 / 10.0 CGPA',
                 desc: 'Top academic performance across Semesters 1 & 2, alongside active project development, internship, and hackathon participation.'
               },
               {
@@ -714,7 +714,7 @@ export default function Home() {
               <p className="mono mt-2 text-xs uppercase tracking-[0.2em] text-[#96beff]">2025 – Present</p>
               <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-neonCyan/30 bg-neonCyan/10 px-3 py-1">
                 <span className="text-xs font-semibold text-neonCyan">CGPA: 9.9 / 10.0</span>
-                <span className="text-xs text-[#a8b4d3]">Year 1 — Semesters 1 & 2</span>
+                <span className="text-xs text-[#a8b4d3]">Semesters 1 & 2</span>
               </div>
             </div>
           </div>

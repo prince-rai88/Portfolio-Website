@@ -3,7 +3,7 @@ import './globals.css';
 export const metadata = {
   title: 'Prince Rai | Full Stack Engineer | AI & Agentic Systems',
   description:
-    'Second-year CSE engineer who builds and ships production systems — full-stack web apps, LLM-powered backends, and agentic AI tools. Won 1st Place at a national hackathon, deployed multiple live apps, and actively freelancing.',
+    'CSE engineer who builds and ships production systems — full-stack web apps, LLM-powered backends, and agentic AI tools. Won 1st Place at a national hackathon, deployed multiple live apps, and actively freelancing.',
   keywords: [
     'Prince Rai',
     'Full Stack Developer',
